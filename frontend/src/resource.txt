@@ -1,0 +1,20 @@
+const sampleResources = [
+  {
+    id: 1,
+    name: 'University Library',
+    description: 'Main campus library with extensive collection of academic resources and study spaces',
+    category: 'Academic',
+    location: 'Central Campus Building',
+    link: 'https://library.university.edu',
+    offeredBy: 'Library Services Department'
+  },
+  {
+    id: 2,
+    name: 'Student Health Center',
+    description: 'Comprehensive health services for all enrolled students',
+    category: 'Health',
+    location: 'West Campus',
+    link: null,
+    offeredBy: 'Student Health Services'
+  }
+];
