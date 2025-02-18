@@ -5,23 +5,12 @@ import {
   Toolbar,
   Typography,
   Button,
-  Stack,
+  Box,
   IconButton,
   Menu,
   MenuItem,
-  Divider,
-  Box,
-  Avatar
 } from '@mui/material';
-import {
-  HelpOutline,
-  Login,
-  Person,
-  AdminPanelSettings,
-  Add,
-  Logout,
-  Menu as MenuIcon
-} from '@mui/icons-material';
+import { Menu as MenuIcon } from '@mui/icons-material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -51,21 +40,31 @@ const Navbar = () => {
   };
 
   // Allow admin access if the user's role is admin or root (case-insensitive)
-  const canAccessAdminPanel = user && user.role && ['admin', 'root'].includes(user.role.toLowerCase());
+  const canAccessAdminPanel =
+    user &&
+    user.role &&
+    ['admin', 'root'].includes(user.role.toLowerCase());
+
+  // Style object to disable hover changes
+  const noHoverStyle = {
+    '&:hover': {
+      backgroundColor: 'transparent !important',
+    },
+  };
 
   return (
     <AppBar position="sticky" elevation={0}>
       <Toolbar>
-        <Typography 
-          variant="h6" 
+        <Typography
+          variant="h6"
           component={RouterLink}
           to="/"
-          sx={{ 
-            flexGrow: 1, 
+          sx={{
+            flexGrow: 1,
             fontWeight: 500,
             fontSize: '1.2rem',
             textDecoration: 'none',
-            color: 'inherit'
+            color: 'inherit',
           }}
         >
           INeedHelp@YorkU
@@ -73,14 +72,35 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <Button 
-            color="inherit" 
+          <Button
+            color="inherit"
             component={RouterLink}
             to="/"
-            sx={{ textTransform: 'none', fontWeight: 400, mr: 1 }}
+            sx={{
+              textTransform: 'none',
+              fontWeight: 400,
+              mr: 1,
+              ...noHoverStyle,
+            }}
           >
             Resources
           </Button>
+
+          {user && (
+            <Button
+              color="inherit"
+              component={RouterLink}
+              to="/suggest-resource"
+              sx={{
+                textTransform: 'none',
+                fontWeight: 400,
+                mr: 1,
+                ...noHoverStyle,
+              }}
+            >
+              Suggest Resource
+            </Button>
+          )}
 
           {user ? (
             <>
@@ -89,7 +109,12 @@ const Navbar = () => {
                   color="inherit"
                   component={RouterLink}
                   to="/admin"
-                  sx={{ textTransform: 'none', fontWeight: 400, mr: 1 }}
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 400,
+                    mr: 1,
+                    ...noHoverStyle,
+                  }}
                 >
                   Admin Panel
                 </Button>
@@ -97,26 +122,39 @@ const Navbar = () => {
               <Button
                 color="inherit"
                 onClick={handleProfileMenuOpen}
-                sx={{ textTransform: 'none', fontWeight: 400 }}
+                sx={{
+                  textTransform: 'none',
+                  fontWeight: 400,
+                  ...noHoverStyle,
+                }}
               >
                 {user.username}
               </Button>
             </>
           ) : (
             <>
-              <Button 
+              <Button
                 color="inherit"
                 component={RouterLink}
                 to="/login"
-                sx={{ textTransform: 'none', fontWeight: 400, mr: 1 }}
+                sx={{
+                  textTransform: 'none',
+                  fontWeight: 400,
+                  mr: 1,
+                  ...noHoverStyle,
+                }}
               >
                 Login
               </Button>
-              <Button 
+              <Button
                 color="inherit"
                 component={RouterLink}
                 to="/register"
-                sx={{ textTransform: 'none', fontWeight: 400 }}
+                sx={{
+                  textTransform: 'none',
+                  fontWeight: 400,
+                  ...noHoverStyle,
+                }}
               >
                 Register
               </Button>
@@ -127,7 +165,7 @@ const Navbar = () => {
         {/* Mobile Menu Icon */}
         <IconButton
           color="inherit"
-          sx={{ display: { xs: 'flex', md: 'none' } }}
+          sx={{ display: { xs: 'flex', md: 'none' }, ...noHoverStyle }}
           onClick={handleMobileMenuOpen}
         >
           <MenuIcon />
@@ -141,14 +179,22 @@ const Navbar = () => {
           onClick={handleMenuClose}
         >
           {canAccessAdminPanel && (
-            <MenuItem component={RouterLink} to="/admin">
+            <MenuItem
+              component={RouterLink}
+              to="/admin"
+              sx={noHoverStyle}
+            >
               Admin Panel
             </MenuItem>
           )}
-          <MenuItem component={RouterLink} to="/suggest-resource">
+          <MenuItem
+            component={RouterLink}
+            to="/suggest-resource"
+            sx={noHoverStyle}
+          >
             Suggest Resource
           </MenuItem>
-          <MenuItem onClick={handleLogout}>
+          <MenuItem onClick={handleLogout} sx={noHoverStyle}>
             Logout
           </MenuItem>
         </Menu>
@@ -160,31 +206,59 @@ const Navbar = () => {
           onClose={handleMenuClose}
           onClick={handleMenuClose}
         >
-          <MenuItem component={RouterLink} to="/">
+          <MenuItem
+            component={RouterLink}
+            to="/"
+            sx={noHoverStyle}
+          >
             Resources
           </MenuItem>
           {user ? (
             [
               canAccessAdminPanel && (
-                <MenuItem key="admin" component={RouterLink} to="/admin">
+                <MenuItem
+                  key="admin"
+                  component={RouterLink}
+                  to="/admin"
+                  sx={noHoverStyle}
+                >
                   Admin Panel
                 </MenuItem>
               ),
-              <MenuItem key="suggest" component={RouterLink} to="/suggest-resource">
+              <MenuItem
+                key="suggest"
+                component={RouterLink}
+                to="/suggest-resource"
+                sx={noHoverStyle}
+              >
                 Suggest Resource
               </MenuItem>,
-              <MenuItem key="logout" onClick={handleLogout}>
+              <MenuItem
+                key="logout"
+                onClick={handleLogout}
+                sx={noHoverStyle}
+              >
                 Logout
-              </MenuItem>
+              </MenuItem>,
             ]
           ) : (
             [
-              <MenuItem key="login" component={RouterLink} to="/login">
+              <MenuItem
+                key="login"
+                component={RouterLink}
+                to="/login"
+                sx={noHoverStyle}
+              >
                 Login
               </MenuItem>,
-              <MenuItem key="register" component={RouterLink} to="/register">
+              <MenuItem
+                key="register"
+                component={RouterLink}
+                to="/register"
+                sx={noHoverStyle}
+              >
                 Register
-              </MenuItem>
+              </MenuItem>,
             ]
           )}
         </Menu>
