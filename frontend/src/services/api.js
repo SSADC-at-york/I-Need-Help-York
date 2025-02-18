@@ -1,12 +1,27 @@
+// src/services/api.js
 const API_BASE_URL = 'http://localhost:8000/api';
 
-// Fetch all resources (approved and others, depending on your backend logic)
-export const fetchResources = async () => {
+const getAuthHeader = () => {
+  const token = localStorage.getItem('token');
+  return token ? { 'Authorization': `Bearer ${token}` } : {};
+};
+
+export const fetchResources = async (status = null) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/resources/`);
+    const url = status 
+      ? `${API_BASE_URL}/resources?status=${status}`
+      : `${API_BASE_URL}/resources`;
+
+    const response = await fetch(url, {
+      headers: {
+        ...getAuthHeader()
+      }
+    });
+
     if (!response.ok) {
       throw new Error('Failed to fetch resources');
     }
+
     return await response.json();
   } catch (error) {
     console.error('Error fetching resources:', error);
@@ -14,109 +29,69 @@ export const fetchResources = async () => {
   }
 };
 
-// Create a new resource (e.g., for seeding or admin-created resources)
-export const createResource = async (resourceData) => {
+export const suggestResource = async (resourceData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/resources/`, {
+    const response = await fetch(`${API_BASE_URL}/resources/suggest`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...getAuthHeader()
       },
-      body: JSON.stringify(resourceData),
+      body: JSON.stringify(resourceData)
     });
-    if (!response.ok) {
-      throw new Error('Failed to create resource');
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error creating resource:', error);
-    throw error;
-  }
-};
 
-// Update an existing resource (used by admin panel to update status, etc.)
-export const updateResource = async (id, resourceData) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/resources/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(resourceData),
-    });
     if (!response.ok) {
-      throw new Error('Failed to update resource');
+      throw new Error('Failed to suggest resource');
     }
-    return await response.json();
-  } catch (error) {
-    console.error('Error updating resource:', error);
-    throw error;
-  }
-};
 
-// Delete a resource (if needed)
-export const deleteResource = async (id) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/resources/${id}`, {
-      method: 'DELETE',
-    });
-    if (!response.ok) {
-      throw new Error('Failed to delete resource');
-    }
-    return true;
-  } catch (error) {
-    console.error('Error deleting resource:', error);
-    throw error;
-  }
-};
-
-// Suggest a new resource (user suggestions are stored with a default status, e.g., "pending")
-export async function suggestResource(resource) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/resources/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      // You can add the default status here if not handled by the backend
-      body: JSON.stringify({ ...resource, status: 'pending' }),
-    });
-    if (!response.ok) {
-      throw new Error('Failed to submit resource suggestion');
-    }
     return await response.json();
   } catch (error) {
     console.error('Error suggesting resource:', error);
     throw error;
   }
-}
+};
 
-// Fetch only pending resource suggestions for the admin panel
-export async function fetchPendingResources() {
+export const reviewResource = async (resourceId, { status, rejection_reason }) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/resources/?status=pending`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch pending suggestions');
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching pending suggestions:', error);
-    throw error;
-  }
-}
-
-// Update the status of a resource suggestion (e.g., "approved" or "rejected")
-export async function updateResourceStatus(id, status) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/resources/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/resources/${resourceId}/review`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status }),
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader()
+      },
+      body: JSON.stringify({
+        status,
+        rejection_reason
+      })
     });
+
     if (!response.ok) {
-      throw new Error('Failed to update resource status');
+      const error = await response.json();
+      throw new Error(error.detail || 'Failed to review resource');
     }
+
     return await response.json();
   } catch (error) {
-    console.error('Error updating resource status:', error);
+    console.error('Error reviewing resource:', error);
     throw error;
   }
-}
+};
+
+export const getPendingResources = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/resources?status=pending`, {
+      headers: {
+        ...getAuthHeader()
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch pending resources');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching pending resources:', error);
+    throw error;
+  }
+};

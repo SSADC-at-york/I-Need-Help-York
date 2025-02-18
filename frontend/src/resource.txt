@@ -1,20 +1,2 @@
-const sampleResources = [
-  {
-    id: 1,
-    name: 'University Library',
-    description: 'Main campus library with extensive collection of academic resources and study spaces',
-    category: 'Academic',
-    location: 'Central Campus Building',
-    link: 'https://library.university.edu',
-    offeredBy: 'Library Services Department'
-  },
-  {
-    id: 2,
-    name: 'Student Health Center',
-    description: 'Comprehensive health services for all enrolled students',
-    category: 'Health',
-    location: 'West Campus',
-    link: null,
-    offeredBy: 'Student Health Services'
-  }
-];
+user secret - f8a680e19d21d4cfd417505039619127a382d5f191c039a945f01560b1717986348a4dcc0cae97b3e9d9ec67b4271c990239bf0a9bd18596130778d5ada872ca
+admin secret - f392f650f4995e60c76bf1656d4773dfba2e82599e7f9c3292999bfce6164dc84bec1a6b88041db1829d0dbb8b1f3008049d8f445b3c8a6f1552483b646b04de

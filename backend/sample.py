@@ -1,12 +1,12 @@
+# seed_resources.py
 from pymongo import MongoClient
 
 def seed_sample_resources():
-    # Connect to MongoDB (update the connection string if needed)
     client = MongoClient("mongodb://localhost:27017")
-    db = client["resources_db"]      # Use your database name here
-    collection = db["resources"]       # Use your collection name here
+    db = client["resources_db"]
+    collection = db["resources"]
 
-    # Define a list of sample resources
+    # Sample resources
     sample_resources = [
         {
             "name": "Academic Counseling",
@@ -14,7 +14,8 @@ def seed_sample_resources():
             "description": "Get help with academic planning and advice.",
             "offered_by": "University Academic Services",
             "location": "Building A, Room 101",
-            "link": "http://example.com/academic-counseling"
+            "link": "http://example.com/academic-counseling",
+            "status": "approved"  # Make sure to set status as approved
         },
         {
             "name": "Health Center",
@@ -22,7 +23,8 @@ def seed_sample_resources():
             "description": "Access to health and wellness resources.",
             "offered_by": "University Health Center",
             "location": "Building B, Room 202",
-            "link": "http://example.com/health-center"
+            "link": "http://example.com/health-center",
+            "status": "approved"
         },
         {
             "name": "Administrative Office",
@@ -30,7 +32,8 @@ def seed_sample_resources():
             "description": "Assistance with administrative tasks.",
             "offered_by": "University Administration",
             "location": "Building C, Room 303",
-            "link": "http://example.com/administrative-office"
+            "link": "http://example.com/administrative-office",
+            "status": "approved"
         },
         {
             "name": "Student Life Services",
@@ -38,18 +41,17 @@ def seed_sample_resources():
             "description": "Support for student activities and engagement.",
             "offered_by": "Student Affairs",
             "location": "Building D, Room 404",
+            "status": "approved"
         }
     ]
 
-    # (Optional) Clear any existing documents in the collection
+    # Clear existing resources
     collection.delete_many({})
     
-    # Insert the sample resources into the collection
+    # Insert new resources
     result = collection.insert_many(sample_resources)
     
-    print("Inserted sample resources with IDs:")
-    for resource_id in result.inserted_ids:
-        print(resource_id)
+    print(f"Inserted {len(result.inserted_ids)} sample resources")
 
 if __name__ == "__main__":
     seed_sample_resources()
