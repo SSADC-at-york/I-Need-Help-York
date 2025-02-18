@@ -1,4 +1,3 @@
-// src/components/LoginForm.js
 import React, { useState } from 'react';
 import {
   Box,
@@ -49,12 +48,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <Box sx={{ 
-      maxWidth: 400, 
-      mx: 'auto', 
-      mt: 8, 
-      px: 2 
-    }}>
+    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 8, px: 2 }}>
       <Card elevation={2}>
         <CardContent sx={{ p: 3 }}>
           <Box sx={{ mb: 3, textAlign: 'center' }}>
@@ -84,7 +78,7 @@ export const LoginForm = () => {
                 required
                 autoComplete="username"
               />
-              
+
               <TextField
                 fullWidth
                 label="Password"
@@ -102,10 +96,7 @@ export const LoginForm = () => {
                 fullWidth
                 size="large"
                 disabled={loading}
-                sx={{ 
-                  py: 1.2,
-                  position: 'relative'
-                }}
+                sx={{ py: 1.2, position: 'relative' }}
               >
                 {loading ? (
                   <CircularProgress
@@ -128,16 +119,30 @@ export const LoginForm = () => {
 
           <Box sx={{ mt: 3, textAlign: 'center' }}>
             <Typography variant="body2" color="text.secondary">
+              <Link
+                component={RouterLink}
+                to="/forgot-password"
+                sx={{
+                  fontWeight: 500,
+                  textDecoration: 'none',
+                  '&:hover': { textDecoration: 'underline' }
+                }}
+              >
+                Forgot Password?
+              </Link>
+            </Typography>
+          </Box>
+
+          <Box sx={{ mt: 3, textAlign: 'center' }}>
+            <Typography variant="body2" color="text.secondary">
               Don't have an account?{' '}
               <Link
                 component={RouterLink}
-                to="/"
-                sx={{ 
+                to="/register"
+                sx={{
                   fontWeight: 500,
                   textDecoration: 'none',
-                  '&:hover': {
-                    textDecoration: 'underline'
-                  }
+                  '&:hover': { textDecoration: 'underline' }
                 }}
               >
                 Register here

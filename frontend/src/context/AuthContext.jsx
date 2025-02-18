@@ -1,5 +1,5 @@
-// src/context/AuthContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext(null);
 
@@ -7,9 +7,10 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
+  // On mount, check for an existing token
   useEffect(() => {
-    // Check if user is logged in on page load
     const checkAuth = async () => {
       const token = localStorage.getItem('token');
       if (token) {
@@ -22,7 +23,6 @@ export const AuthProvider = ({ children }) => {
       }
       setLoading(false);
     };
-
     checkAuth();
   }, []);
 
@@ -30,14 +30,12 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await fetch('http://localhost:8000/api/users/me', {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          'Authorization': `Bearer ${token}`,
+        },
       });
-
       if (!response.ok) {
         throw new Error('Failed to fetch user profile');
       }
-
       const userData = await response.json();
       setUser(userData);
       setError(null);
@@ -57,21 +55,14 @@ export const AuthProvider = ({ children }) => {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: new URLSearchParams({
-          username,
-          password,
-        }),
+        body: new URLSearchParams({ username, password }),
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.detail || 'Login failed');
       }
-
       const data = await response.json();
       localStorage.setItem('token', data.access_token);
-      
-      // Fetch user profile after successful login
       await fetchUserProfile(data.access_token);
       setError(null);
       return true;
@@ -85,21 +76,13 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await fetch('http://localhost:8000/api/users/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          username,
-          password,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, username, password }),
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.detail || 'Registration failed');
       }
-
       const data = await response.json();
       setError(null);
       return data;
@@ -115,7 +98,43 @@ export const AuthProvider = ({ children }) => {
     setError(null);
   };
 
-  // Helper function to get auth header for API calls
+  // Request a password reset link
+  const requestPasswordReset = async (email) => {
+    try {
+      const response = await fetch('http://localhost:8000/api/users/request-password-reset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to request password reset');
+      }
+      return await response.json();
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  // Optionally, reset the password using a token and a new password
+  const resetPassword = async (token, newPassword) => {
+    try {
+      const response = await fetch('http://localhost:8000/api/users/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, new_password: newPassword }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Password reset failed');
+      }
+      return await response.json();
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  // Helper to get the auth header for API calls
   const getAuthHeader = () => {
     const token = localStorage.getItem('token');
     return token ? { 'Authorization': `Bearer ${token}` } : {};
@@ -129,6 +148,8 @@ export const AuthProvider = ({ children }) => {
     logout,
     register,
     getAuthHeader,
+    requestPasswordReset,
+    resetPassword,
     isAuthenticated: !!user,
   };
 
@@ -161,7 +182,7 @@ export const useAuth = () => {
   return context;
 };
 
-// Higher-order component to protect routes
+// Higher-order component for protecting routes
 export const withAuth = (WrappedComponent) => {
   return function AuthenticatedComponent(props) {
     const { user, loading } = useAuth();
