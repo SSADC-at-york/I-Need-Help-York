@@ -90,7 +90,7 @@ const AdminPanel = () => {
         ? '/api/resources/admin/all'
         : `/api/resources/by-status/${getStatusFromTab(currentTab)}`;
 
-      const response = await fetch(`http://localhost:8000${endpoint}`, {
+      const response = await fetch(`https://ineedhelpbackend.onrender.com/${endpoint}`, {
         headers: getAuthHeader()
       });
 
@@ -109,7 +109,7 @@ const AdminPanel = () => {
   // User management functions
   const loadUsers = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/admin/users', {
+      const response = await fetch('https://ineedhelpbackend.onrender.com//api/admin/users', {
         headers: getAuthHeader()
       });
 
@@ -123,7 +123,7 @@ const AdminPanel = () => {
 
   const handleUpdateUserRole = async (userId, newRole) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/admin/users/${userId}/role`, {
+      const response = await fetch(`https://ineedhelpbackend.onrender.com//api/admin/users/${userId}/role`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ const AdminPanel = () => {
   // Resource management handlers
   const handleCreateResource = async (resourceData) => {
     try {
-      const response = await fetch('http://localhost:8000/api/resources/admin/create', {
+      const response = await fetch('https://ineedhelpbackend.onrender.com//api/resources/admin/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -172,7 +172,7 @@ const AdminPanel = () => {
 
   const handleUpdateResource = async (id, resourceData) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/resources/admin/${id}`, {
+      const response = await fetch(`https://ineedhelpbackend.onrender.com//api/resources/admin/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ const AdminPanel = () => {
 
   const handleDeleteResource = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/resources/admin/${id}`, {
+      const response = await fetch(`https://ineedhelpbackend.onrender.com//api/resources/admin/${id}`, {
         method: 'DELETE',
         headers: getAuthHeader()
       });
@@ -209,7 +209,7 @@ const AdminPanel = () => {
   const handleReviewSubmit = async () => {
     const { resource, action, reason } = reviewDialog;
     try {
-      const response = await fetch(`http://localhost:8000/api/resources/${resource.id}/review`, {
+      const response = await fetch(`https://ineedhelpbackend.onrender.com//api/resources/${resource.id}/review`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
