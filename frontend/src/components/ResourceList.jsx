@@ -26,7 +26,7 @@ export const ResourceList = () => {
     const loadResources = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:8000/api/resources', {
+        const response = await fetch('https://ineedhelpbackend.onrender.com/api/resources', {
           headers: {
             ...getAuthHeader(),
           }
