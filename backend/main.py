@@ -186,8 +186,7 @@ app.add_middleware(
 )
 
 # MongoDB Connection (adjust connection string as needed)
-client = MongoClient("mongodb+srv://arnav:arnav@ineedhelp.dfvha.mongodb.net/?retryWrites=true&w=majority&appName=INeedHelp"
-")
+client = MongoClient("mongodb+srv://arnav:arnav@ineedhelp.dfvha.mongodb.net/?retryWrites=true&w=majority&appName=INeedHelp")
 db = client["resources_db"]
 collection = db["resources"]
 collection_users = db["users"]
