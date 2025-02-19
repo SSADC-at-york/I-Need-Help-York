@@ -117,7 +117,7 @@ def send_password_reset_email(email: str, token: str):
     """
     Sends an HTML email with a link for password reset.
     """
-    reset_link = f"http://localhost:5173/reset-password?token={token}"
+    reset_link = f"https://ineedhelp.onrender.com/reset-password?token={token}"
     subject = "Password Reset Request - INeedHelp@YorkU"
     html_body = f"""\
     <html>
@@ -407,20 +407,20 @@ async def verify_email(token: str = Query(...)):
         purpose = payload.get("purpose")
         if email is None or purpose != "email_verification":
             # If invalid token or missing purpose, redirect to a failure page in your frontend
-            return RedirectResponse(url="http://localhost:5173/verification-failed")
+            return RedirectResponse(url="https://ineedhelp.onrender.com/verification-failed")
 
         # Mark user as verified
         result = collection_users.update_one({"email": email}, {"$set": {"verified": True}})
         if result.modified_count == 0:
             # If user not found or already verified
-            return RedirectResponse(url="http://localhost:5173/verification-failed")
+            return RedirectResponse(url="https://ineedhelp.onrender.com/verification-failed")
 
         # SUCCESS: redirect to a success page in your React app
-        return RedirectResponse(url="http://localhost:5173/verification-success")
+        return RedirectResponse(url="https://ineedhelp.onrender.com/verification-success")
 
     except JWTError:
         # If token is invalid or expired
-        return RedirectResponse(url="http://localhost:5173/verification-failed")
+        return RedirectResponse(url="https://ineedhelp.onrender.com/verification-failed")
 
 # ---------------------------
 # Password Reset Endpoints

@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUserProfile = async (token) => {
     try {
-      const response = await fetch('http://localhost:8000/api/users/me', {
+      const response = await fetch('https://ineedhelpbackend.onrender.com/api/users/me', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const response = await fetch('http://localhost:8000/api/users/token', {
+      const response = await fetch('https://ineedhelpbackend.onrender.com/api/users/token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, username, password) => {
     try {
-      const response = await fetch('http://localhost:8000/api/users/register', {
+      const response = await fetch('https://ineedhelpbackend.onrender.com/api/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, username, password }),
@@ -101,7 +101,7 @@ export const AuthProvider = ({ children }) => {
   // Request a password reset link
   const requestPasswordReset = async (email) => {
     try {
-      const response = await fetch('http://localhost:8000/api/users/request-password-reset', {
+      const response = await fetch('https://ineedhelpbackend.onrender.com/api/users/request-password-reset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -119,7 +119,7 @@ export const AuthProvider = ({ children }) => {
   // Optionally, reset the password using a token and a new password
   const resetPassword = async (token, newPassword) => {
     try {
-      const response = await fetch('http://localhost:8000/api/users/reset-password', {
+      const response = await fetch('https://ineedhelpbackend.onrender.com/api/users/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, new_password: newPassword }),
