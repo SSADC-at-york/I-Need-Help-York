@@ -66,7 +66,7 @@ def send_verification_email(email: str, token: str):
     """
     Sends an HTML email to verify the user's email address.
     """
-    verify_link = f"http://localhost:8000/api/users/verify-email?token={token}"
+    verify_link = f"http://https://ineedhelpbackend.onrender.com/api/users/verify-email?token={token}"
     subject = "Verify Your Email - INeedHelp@YorkU"
     html_body = f"""\
     <html>
@@ -186,7 +186,7 @@ app.add_middleware(
 )
 
 # MongoDB Connection (adjust connection string as needed)
-client = MongoClient("uri = "mongodb+srv://arnav:arnav@ineedhelp.dfvha.mongodb.net/?retryWrites=true&w=majority&appName=INeedHelp"
+client = MongoClient("mongodb+srv://arnav:arnav@ineedhelp.dfvha.mongodb.net/?retryWrites=true&w=majority&appName=INeedHelp"
 ")
 db = client["resources_db"]
 collection = db["resources"]
