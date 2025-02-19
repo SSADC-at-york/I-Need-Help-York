@@ -5,7 +5,7 @@ import { RegisterForm } from './components/RegisterForm';
 import ForgotPasswordForm from './components/ForgotPasswordForm';
 import AdminPanel from './components/AdminPanel';
 import { SuggestResourceForm } from './components/SuggestResourceForm';
-import Navbar from './components/Navbar';
+import Navbar from './components/NavBar';
 import { ResetPasswordForm } from './components/ResetPasswordForm';
 import { VerificationSuccess } from './components/VerificationSuccess';
 import { VerificationFailed } from './components/VerificationFailed';
