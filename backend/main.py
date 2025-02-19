@@ -66,7 +66,7 @@ def send_verification_email(email: str, token: str):
     """
     Sends an HTML email to verify the user's email address.
     """
-    verify_link = f"http://https://ineedhelpbackend.onrender.com/api/users/verify-email?token={token}"
+    verify_link = f"https://ineedhelpbackend.onrender.com/api/users/verify-email?token={token}"
     subject = "Verify Your Email - INeedHelp@YorkU"
     html_body = f"""\
     <html>
