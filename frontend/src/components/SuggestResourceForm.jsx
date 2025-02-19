@@ -48,7 +48,7 @@ export const SuggestResourceForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://ineedhelpbackend.onrender.com//api/resources/suggest', {
+      const response = await fetch('https://ineedhelpbackend.onrender.com/api/resources/suggest', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
