@@ -172,6 +172,7 @@ app = FastAPI()
 # Configure CORS
 origins = [
     "http://localhost:3000",
+    "https://ineedhelp.onrender.com",
     "http://localhost:5173",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:5173",
