@@ -87,8 +87,8 @@ const AdminPanel = () => {
     try {
       setLoading(true);
       let endpoint = currentTab === 0 
-        ? '/api/resources/admin/all'
-        : `/api/resources/by-status/${getStatusFromTab(currentTab)}`;
+        ? 'api/resources/admin/all'
+        : `api/resources/by-status/${getStatusFromTab(currentTab)}`;
 
       const response = await fetch(`https://ineedhelpbackend.onrender.com/${endpoint}`, {
         headers: getAuthHeader()
