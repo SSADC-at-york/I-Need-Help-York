@@ -171,6 +171,7 @@ app = FastAPI()
 
 # Configure CORS
 origins = [
+    "https://ineedhelp.yorku.dev"
     "http://localhost:3000",
     "https://ineedhelp.onrender.com",
     "http://localhost:5173",
